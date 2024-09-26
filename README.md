@@ -32,7 +32,7 @@ retrier --help
 git clone git@github.com:dantheman0207/homebrew-retrier.git
 cd homebrew-retrier
 go build
-./retrier -h
+./retrier --help
 ```
 
 ## Usage
