@@ -39,6 +39,20 @@ go build
 
 The `retrier` command accepts a command to run and provides various options for configuring the backoff strategy, delay, and maximum number of attempts.
 
+### Command-Line Flags
+
+Below is the help output for the tool, which shows all the available flags and their descriptions.
+
+```
+Retrier usage: retrier "command1; command2 && command3 || comand4 | command5"
+  -backoff
+        (-b) Backoff strategy: fibonacci (f), exponential (e), linear (l), constant (c) (default "fibonacci")
+  -delay
+        (-d) Base delay in seconds for backoff (default "2")
+  -max-attempts
+        (-m) Maximum number of attempts (-1 for infinite retries) (default "-1")
+```
+
 ### Example Usage
 
 Here are some examples of how you can use `retrier`:
@@ -53,33 +67,20 @@ retrier -b f "echo 'Retrying...'"
 
 #### Exponential Backoff with Custom Delay
 
-Retry a command using exponential backoff with a 3-second base delay:
+Retry a command 50 times using exponential backoff with a 3-second base delay.
 
 ```bash
-retrier -b e -d 3 "echo 'Retrying...'"
+retrier -b e -d 3 -m 50 "echo 'Retrying...'"
 ```
 
 #### Infinite Retries
 
-Retry a command infinitely until it succeeds:
+Retry a command infinitely until it succeeds by passing it `-1` (default behavior)
 
 ```bash
 retrier -m -1 "echo 'Retrying...'"
 ```
 
-### Command-Line Flags
-
-Below is the help output for the tool, which shows all the available flags and their descriptions.
-
-```
-Retrier usage: retrier "command1; command2 && command3 || comand4 | command5"
-  -backoff
-        (-b) Backoff strategy: fibonacci (f), exponential (e), linear (l), constant (c) (default "fibonacci")
-  -delay
-        (-d) Base delay in seconds for backoff (default "2")
-  -max-attempts
-        (-m) Maximum number of attempts (-1 for infinite retries) (default "-1")
-```
 
 ### Backoff Strategies
 
