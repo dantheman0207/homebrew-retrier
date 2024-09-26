@@ -62,7 +62,9 @@ Here are some examples of how you can use `retrier`:
 Retry a command using the default Fibonacci backoff strategy:
 
 ```bash
-retrier -b f "echo 'Retrying...'"
+retrier --backoff fibonacci "echo 'Retrying...'"
+# or
+retrier -b f echo 'Retrying...'
 ```
 
 #### Exponential Backoff with Custom Delay
@@ -70,7 +72,9 @@ retrier -b f "echo 'Retrying...'"
 Retry a command 50 times using exponential backoff with a 3-second base delay.
 
 ```bash
-retrier -b e -d 3 -m 50 "echo 'Retrying...'"
+retrier --backoff exponential --delay 3 --max-attempts 50 "echo 'Retrying...'"
+# or
+retrier -b e -d 3 -m 50 echo 'Retrying...'
 ```
 
 #### Infinite Retries
@@ -78,7 +82,9 @@ retrier -b e -d 3 -m 50 "echo 'Retrying...'"
 Retry a command infinitely until it succeeds by passing it `-1` (default behavior)
 
 ```bash
-retrier -m -1 "echo 'Retrying...'"
+retrier --max-attempts -1 "echo 'Retrying...'"
+# or
+retrier -m -1 echo 'Retrying...'
 ```
 
 
