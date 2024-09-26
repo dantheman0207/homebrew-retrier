@@ -1,1 +1,1 @@
-module github.com/retrier
+module github.com/homebrew-retrier
