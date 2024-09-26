@@ -56,17 +56,25 @@ func parseBackoffStrategy(strategy string, attempt int, baseDelay int) (time.Dur
 
 func main() {
 	// Define command line flags
-	backoffStrategyDescription := "Backoff strategy: fibonacci (f), exponential (e), linear (l), constant (c)"
-	backoffStrategy := flag.String("backoff", "fibonacci", backoffStrategyDescription)
-	backoffStrategyShort := flag.String("b", "f", backoffStrategyDescription)
+	backoffStrategy := flag.String("backoff", "fibonacci", "(-b) Backoff strategy: fibonacci (f), exponential (e), linear (l), constant (c)")
+	backoffStrategyShort := flag.String("b", "f", "")
 
-	baseDelayDescription := "Base delay in seconds for backoff"
-	baseDelay := flag.Int("delay", 2, baseDelayDescription)
-	baseDelayShort := flag.Int("d", 2, baseDelayDescription)
+	baseDelay := flag.Int("delay", 2, "(-d) Base delay in seconds for backoff")
+	baseDelayShort := flag.Int("d", 2, "")
 
-	maxAttemptsDescription := "Maximum number of attempts (-1 for infinite retries)"
-	maxAttempts := flag.Int("max-attempts", -1, maxAttemptsDescription)
-	maxAttemptsShort := flag.Int("m", -1, maxAttemptsDescription)
+	maxAttempts := flag.Int("max-attempts", -1, "(-m) Maximum number of attempts (-1 for infinite retries)")
+	maxAttemptsShort := flag.Int("m", -1, "")
+
+	flag.Usage = func() {
+		fmt.Fprintln(os.Stderr, "Retrier usage: retrier \"command1; command2 && command3 || comand4 | command5\"")
+		flag.VisitAll(func(f *flag.Flag) {
+			// Only show help for flags with descriptions (i.e., the long versions)
+			if f.Usage != "" {
+				fmt.Fprintf(os.Stderr, "  -%s\n", f.Name)
+				fmt.Fprintf(os.Stderr, "        %s (default %q)\n", f.Usage, f.DefValue)
+			}
+		})
+	}
 
 	// Parse flags
 	flag.Parse()
@@ -91,7 +99,7 @@ func main() {
 	_, strategy := parseBackoffStrategy(*backoffStrategy, 0, *baseDelay)
 	fmt.Printf("Using %s strategy for backoffs with initial delay %ds and %d max attempts\n", strategy, *baseDelay, *maxAttempts)
 
-	command := strings.Join(flag.Args(), "")
+	command := strings.Join(flag.Args(), " ")
 
 	// Initialize attempt counter
 	attempt := 1
@@ -112,7 +120,7 @@ func main() {
 		}
 
 		// Command failed
-		fmt.Printf("Attempt %d failed. Error: %s\n", attempt, err)
+		fmt.Printf("Attempt %d failed `%s` Error: %s\n", attempt, command, err)
 
 		// Check if max attempts is set and exceeded
 		if *maxAttempts != -1 && attempt >= *maxAttempts {
