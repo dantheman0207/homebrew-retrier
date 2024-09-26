@@ -8,19 +8,19 @@ You can install `retrier` using [Homebrew](https://brew.sh/). Follow these instr
 
 ### Install via Homebrew
 
-To install `retrier`, first add the Homebrew tap for the repository:
+To install `retrier`, first add the Homebrew tap for the repository.
 
 ```bash
 brew tap dantheman0207/retrier
 ```
 
-Once the tap is added, you can install the tool using:
+Once the tap is added, you can install the tool.
 
 ```bash
 brew install retrier
 ```
 
-After installation, you can check if `retrier` is available by running:
+After installation, you can check if `retrier` is available.
 
 ```bash
 retrier --help
