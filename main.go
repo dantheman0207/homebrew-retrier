@@ -89,7 +89,7 @@ func main() {
 	}
 
 	_, strategy := parseBackoffStrategy(*backoffStrategy, 0, *baseDelay)
-	fmt.Printf("Using %s strategy for backoffs with initial delay %d\n", strategy, *baseDelay)
+	fmt.Printf("Using %s strategy for backoffs with initial delay %ds and %d max attempts\n", strategy, *baseDelay, *maxAttempts)
 
 	command := strings.Join(flag.Args(), "")
 
@@ -101,8 +101,6 @@ func main() {
 		cmd := exec.Command("/bin/sh", "-c", command)
 		cmd.Stdout = os.Stdout
 		cmd.Stderr = os.Stderr
-
-		fmt.Printf("Running command: %s\n", cmd.String())
 
 		// os.Exit(1)
 
