@@ -66,7 +66,7 @@ func main() {
 	maxAttemptsShort := flag.Int("m", -1, "")
 
 	flag.Usage = func() {
-		fmt.Fprintln(os.Stderr, "Retrier usage: retrier \"command1; command2 && command3 || comand4 | command5\"")
+		fmt.Fprintln(os.Stderr, "Retrier usage: retrier \"command1; command2 && command3 || command4 | command5\"")
 		flag.VisitAll(func(f *flag.Flag) {
 			// Only show help for flags with descriptions (i.e., the long versions)
 			if f.Usage != "" {
