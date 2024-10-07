@@ -44,7 +44,7 @@ The `retrier` command accepts a command to run and provides various options for 
 Below is the help output for the tool, which shows all the available flags and their descriptions.
 
 ```
-Retrier usage: retrier "command1; command2 && command3 || comand4 | command5"
+Retrier usage: retrier "command1; command2 && command3 || command4 | command5"
   -backoff
         (-b) Backoff strategy: fibonacci (f), exponential (e), linear (l), constant (c) (default "fibonacci")
   -delay
