@@ -31,7 +31,11 @@ retrier --help
 ```bash
 git clone git@github.com:dantheman0207/homebrew-retrier.git
 cd homebrew-retrier
-go build
+go build -o retrier
+# Make it executable
+chmod u+x ./retrier
+# Move to path
+cp ./retrier /usr/local/bin/retrier
 ./retrier --help
 ```
 
