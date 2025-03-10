@@ -10,6 +10,10 @@ import (
 	"time"
 )
 
+var (
+	Version = "0.1.0"
+)
+
 // Fibonacci backoff
 func fibonacciBackoff(attempt int, baseDelay int) time.Duration {
 	if attempt <= 2 {
@@ -65,6 +69,9 @@ func main() {
 	maxAttempts := flag.Int("max-attempts", -1, "(-m) Maximum number of attempts (-1 for infinite retries)")
 	maxAttemptsShort := flag.Int("m", -1, "")
 
+	version := flag.Bool("version", false, "Print version and exit")
+	flag.BoolVar(version, "v", false, "Print version and exit")
+
 	flag.Usage = func() {
 		fmt.Fprintln(os.Stderr, "Retrier usage: retrier \"command1; command2 && command3 || command4 | command5\"")
 		flag.VisitAll(func(f *flag.Flag) {
@@ -78,6 +85,11 @@ func main() {
 
 	// Parse flags
 	flag.Parse()
+
+	if *version {
+		fmt.Println("Retrier version", Version)
+		os.Exit(0)
+	}
 
 	// use short versions
 	if backoffStrategyShort != nil && *backoffStrategyShort != "f" {
