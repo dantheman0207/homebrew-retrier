@@ -57,6 +57,8 @@ Retrier usage: retrier "command1; command2 && command3 || command4 | command5"
         (-m) Maximum number of attempts (-1 for infinite retries) (default "-1")
   -retry-on-success
         (-r) Retry on success (default: false)
+  -version
+        (-v) Print version and exit
 ```
 
 ### Example Usage
@@ -103,6 +105,15 @@ retrier --retry-on-success "echo 'Retrying...'"
 retrier -r echo 'Retrying...'
 ```
 
+#### Print version
+
+Print the version information by passing it `-r`
+
+```bash
+retrier --version
+# or
+retrier -v # Outputs something like `Retrier version 0.1.3`
+```
 
 ### Backoff Strategies
 

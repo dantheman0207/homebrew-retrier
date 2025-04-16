@@ -11,7 +11,7 @@ import (
 )
 
 var (
-	Version = "0.1.2"
+	Version = "0.1.4"
 )
 
 // Fibonacci backoff
@@ -72,8 +72,8 @@ func main() {
 	retryOnSuccess := flag.Bool("retry-on-success", false, "(-r) Retry on success (default: false)")
 	retryOnSuccessShort := flag.Bool("r", false, "")
 
-	version := flag.Bool("version", false, "Print version and exit")
-	flag.BoolVar(version, "v", false, "Print version and exit")
+	version := flag.Bool("version", false, "(-v) Print version and exit")
+	flag.BoolVar(version, "v", false, "")
 
 	flag.Usage = func() {
 		fmt.Fprintln(os.Stderr, "Retrier usage: retrier \"command1; command2 && command3 || command4 | command5\"")
