@@ -55,6 +55,8 @@ Retrier usage: retrier "command1; command2 && command3 || command4 | command5"
         (-d) Base delay in seconds for backoff (default "2")
   -max-attempts
         (-m) Maximum number of attempts (-1 for infinite retries) (default "-1")
+  -retry-on-success
+        (-r) Retry on success (default: false)
 ```
 
 ### Example Usage
@@ -89,6 +91,16 @@ Retry a command infinitely until it succeeds by passing it `-1` (default behavio
 retrier --max-attempts -1 "echo 'Retrying...'"
 # or
 retrier -m -1 echo 'Retrying...'
+```
+
+#### Retry on success
+
+Retry a command even when it success by passing it `-r`
+
+```bash
+retrier --retry-on-success "echo 'Retrying...'"
+# or
+retrier -r echo 'Retrying...'
 ```
 
 

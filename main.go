@@ -11,7 +11,7 @@ import (
 )
 
 var (
-	Version = "0.1.0"
+	Version = "0.1.2"
 )
 
 // Fibonacci backoff
@@ -68,6 +68,9 @@ func main() {
 
 	maxAttempts := flag.Int("max-attempts", -1, "(-m) Maximum number of attempts (-1 for infinite retries)")
 	maxAttemptsShort := flag.Int("m", -1, "")
+
+	retryOnSuccess := flag.Bool("retry-on-success", false, "(-r) Retry on success (default: false)")
+	retryOnSuccessShort := flag.Bool("r", false, "")
 
 	version := flag.Bool("version", false, "Print version and exit")
 	flag.BoolVar(version, "v", false, "Print version and exit")
@@ -127,16 +130,18 @@ func main() {
 		err := cmd.Run()
 		if err == nil {
 			// Command succeeded
-			fmt.Printf("Command succeeded on attempt %d\n", attempt)
-			os.Exit(0)
+			fmt.Printf("\nCommand succeeded on attempt %d\n", attempt)
+			if !*retryOnSuccess && !*retryOnSuccessShort {
+				os.Exit(0)
+			}
+		} else {
+			// Command failed
+			fmt.Printf("Attempt %d failed `%s` Error: %s\n", attempt, command, err)
 		}
-
-		// Command failed
-		fmt.Printf("Attempt %d failed `%s` Error: %s\n", attempt, command, err)
 
 		// Check if max attempts is set and exceeded
 		if *maxAttempts != -1 && attempt >= *maxAttempts {
-			fmt.Printf("Failed after %d attempts\n", attempt)
+			fmt.Printf("Finished after %d attempts\n", attempt)
 			os.Exit(1)
 		}
 
