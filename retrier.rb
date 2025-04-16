@@ -1,7 +1,7 @@
 class Retrier < Formula
     desc "A tool for retrying commands until they succeed"
     homepage "https://github.com/dantheman0207/retrier"
-    url "https://github.com/dantheman0207/retrier/archive/v0.1.5.tar.gz"
+    url "https://github.com/dantheman0207/homebrew-retrier/releases/download/v0.1.5/retrier"
     sha256 "c9719cd635e14723bbb39305a33cc87b69e04e930e535621911321e5dcad6cfb"
     license "MIT"
   
