@@ -112,7 +112,7 @@ Print the version information by passing it `-r`
 ```bash
 retrier --version
 # or
-retrier -v # Outputs something like `Retrier version 0.1.4`
+retrier -v # Outputs something like `Retrier version 0.1.5`
 ```
 
 ### Backoff Strategies
