@@ -15,8 +15,7 @@ tar:
 bump-patch:
 	rm -rf $(TAR_FILE)
 	@NEW_VERSION=$(shell echo $(VERSION) | awk -F. '{print $$1"."$$2"."$$3+1}') && \
-	sed -i '' "s/^VERSION := .*/VERSION := $${NEW_VERSION}/" Makefile && \
-	sed -i '' "s/$(VERSION)/$${NEW_VERSION}/g" main.go retrier.rb && \
+	sed -i '' "s/$(VERSION)/$${NEW_VERSION}/g" main.go retrier.rb Makefile && \
 	echo "Version bumped to $${NEW_VERSION}"
 
 update-sha:
