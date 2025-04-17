@@ -25,7 +25,8 @@ tag:
 	git push
 
 gh-release:
-	gh release create v$(VERSION) $(TAR_FILE) retrier --title "Release $(VERSION)" --notes "Release $(VERSION)" --target main
+	gh release create v$(VERSION) --title "Release $(VERSION)" --notes "Release $(VERSION)" --target main || true
+	gh release upload v$(VERSION) $(TAR_FILE) retrier --clobber
 
 bump-patch:
 	rm -rf $(TAR_FILE)
