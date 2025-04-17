@@ -16,6 +16,14 @@ tar:
 	@echo "Creating tarball for v$(VERSION)"
 	tar -czvf $(TAR_FILE) retrier
 
+
+tag:
+	git add $(TAR_FILE)
+	git commit -a -m "Release $(VERSION)"
+	git tag -a v$(VERSION) -m "Release $(VERSION)"
+	git push origin v$(VERSION)
+	git push
+
 bump-patch:
 	rm -rf $(TAR_FILE)
 	@NEW_VERSION=$(shell echo $(VERSION) | awk -F. '{print $$1"."$$2"."$$3+1}') && \
