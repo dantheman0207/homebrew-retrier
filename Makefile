@@ -14,7 +14,7 @@ build:
 
 tar:
 	@echo "Creating tarball for v$(VERSION)"
-	tar -czvf $(TAR_FILE) retrier
+	tar -czvf $(TAR_FILE) ./*
 
 
 tag:
