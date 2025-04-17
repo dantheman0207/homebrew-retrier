@@ -1,4 +1,4 @@
-VERSION := 0.1.6
+VERSION := 0.1.5
 TAR_FILE := retrier-v$(VERSION)-darwin-arm.tar.gz
 SHA256 := $(shell shasum -a 256 $(TAR_FILE) | awk '{print $$1}')
 
@@ -19,7 +19,7 @@ bump-patch:
 	sed -i '' "s/$(VERSION)/$${NEW_VERSION}/g" main.go retrier.rb && \
 	echo "Version bumped to $${NEW_VERSION}"
 
-update-sha: tar
+update-sha:
 	@NEW_SHA256=$(SHA256) && \
 	sed -i '' "s/sha256 \".*\"/sha256 \"$${NEW_SHA256}\"/" retrier.rb && \
 	echo "SHA256 updated to $${NEW_SHA256}"
