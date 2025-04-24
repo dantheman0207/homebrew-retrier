@@ -3,15 +3,18 @@ package main
 import (
 	"flag"
 	"fmt"
+	"io"
 	"math"
 	"os"
 	"os/exec"
 	"strings"
 	"time"
+
+	"github.com/creack/pty"
 )
 
 var (
-	Version = "0.1.6"
+	Version = "0.1.7"
 )
 
 // Fibonacci backoff
@@ -125,9 +128,20 @@ func main() {
 		cmd.Stdout = os.Stdout
 		cmd.Stderr = os.Stderr
 
+		// Start the command with a pty
+		ptmx, err := pty.Start(cmd)
+		if err != nil {
+			fmt.Printf("failed to start PTY: %w", err)
+		}
+		defer func() { _ = ptmx.Close() }() // Best effort
+
+		// Copy PTY output to real stdout
+		go func() {
+			_, _ = io.Copy(os.Stdout, ptmx)
+		}()
 		// os.Exit(1)
 
-		err := cmd.Run()
+		err = cmd.Wait()
 		if err == nil {
 			// Command succeeded
 			fmt.Printf("\nCommand succeeded on attempt %d\n", attempt)
