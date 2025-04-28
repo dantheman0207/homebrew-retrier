@@ -14,6 +14,7 @@ build:
 
 tar:
 	@echo "Creating tarball for v$(VERSION)"
+	xattr -cr retrier
 	tar -czvf $(TAR_FILE) ./*
 
 
