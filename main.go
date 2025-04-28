@@ -14,7 +14,7 @@ import (
 )
 
 var (
-	Version = "0.1.7"
+	Version = "0.1.8"
 )
 
 // Fibonacci backoff
@@ -162,14 +162,11 @@ func main() {
 		// Calculate backoff delay based on the selected strategy
 		delay, _ := parseBackoffStrategy(*backoffStrategy, attempt, *baseDelay)
 		fmt.Printf("Waiting for %v\n", delay)
-		for i := 0; i < int(delay.Seconds()); i++ {
-			fmt.Printf("\r\033[KRetrying in %ds...", i+1)
+		for i := int(delay.Seconds()) - 1; i > 0; i-- {
+			fmt.Printf("\r\033[KRetrying in %ds...", i-1)
 			time.Sleep(time.Second)
 		}
-		fmt.Println()
-
-		// Wait for the backoff delay before retrying
-		time.Sleep(delay)
+		fmt.Print("\r\033[K\n")
 
 		// Increment attempt counter
 		attempt++
