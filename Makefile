@@ -1,11 +1,11 @@
-VERSION := 0.1.10
+VERSION := 0.1.11
 TAR_FILE := retrier-v$(VERSION)-darwin-arm.tar.gz
 SHA256 := $(shell [ -f $(TAR_FILE) ] && shasum -a 256 $(TAR_FILE) | awk '{print $$1}' || echo "")
 
 .PHONY: all build tar bump-patch update-sha
 
 all: bump-patch
-	$(MAKE) reexec
+	$(MAKE) reexec || $(MAKE) revert-version
 
 reexec: build tar update-sha tag gh-release
 
@@ -14,8 +14,8 @@ build:
 
 tar:
 	@echo "Creating tarball for v$(VERSION)"
-	xattr -cr $(TAR_FILE)
 	tar -czvf $(TAR_FILE) ./*
+	xattr -cr $(TAR_FILE)
 
 
 tag:
@@ -44,7 +44,7 @@ revert-version:
 	echo "Version lowered to $${NEW_VERSION}"
 
 update-sha:
-	@NEW_SHA256=$(SHA256) && \
+	@NEW_SHA256=$(shell [ -f $(TAR_FILE) ] && shasum -a 256 $(TAR_FILE) | awk '{print $$1}' || echo "") && \
 	if [ -z "$${NEW_SHA256}" ]; then \
         echo "Error: SHA256 checksum is empty. Exiting."; \
         exit 1; \
