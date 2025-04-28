@@ -14,7 +14,7 @@ build:
 
 tar:
 	@echo "Creating tarball for v$(VERSION)"
-	xattr -cr retrier
+	xattr -cr $(TAR_FILE)
 	tar -czvf $(TAR_FILE) ./*
 
 
@@ -45,5 +45,10 @@ revert-version:
 
 update-sha:
 	@NEW_SHA256=$(SHA256) && \
+	if [ -z "$${NEW_SHA256}" ]; then \
+        echo "Error: SHA256 checksum is empty. Exiting."; \
+        exit 1; \
+    fi && \
 	sed -i '' "s/sha256 \".*\"/sha256 \"$${NEW_SHA256}\"/" retrier.rb && \
 	echo "SHA256 updated to $${NEW_SHA256}"
+
