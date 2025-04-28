@@ -14,7 +14,7 @@ import (
 )
 
 var (
-	Version = "0.1.13"
+	Version = "0.1.14"
 )
 
 // Fibonacci backoff
@@ -163,7 +163,7 @@ func main() {
 		delay, _ := parseBackoffStrategy(*backoffStrategy, attempt, *baseDelay)
 		fmt.Printf("Waiting for %v\n", delay)
 		for i := int(delay.Seconds()) - 1; i > 0; i-- {
-			fmt.Printf("\r\033[KRetrying in %ds...", i-1)
+			fmt.Printf("\r\033[KRetrying in %v...", time.Duration(i+1)*time.Second)
 			time.Sleep(time.Second)
 		}
 		fmt.Print("\r\033[K\n")
