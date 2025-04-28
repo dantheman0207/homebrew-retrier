@@ -1,4 +1,4 @@
-VERSION := 0.1.9
+VERSION := 0.1.10
 TAR_FILE := retrier-v$(VERSION)-darwin-arm.tar.gz
 SHA256 := $(shell [ -f $(TAR_FILE) ] && shasum -a 256 $(TAR_FILE) | awk '{print $$1}' || echo "")
 
