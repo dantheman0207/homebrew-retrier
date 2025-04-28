@@ -20,6 +20,7 @@ tar:
 
 tag:
 	git add $(TAR_FILE)
+	git status
 	git commit -a -m "Release $(VERSION)"
 	git tag -a v$(VERSION) -m "Release $(VERSION)" -f
 	git push origin v$(VERSION) -f
