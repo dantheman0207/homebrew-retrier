@@ -161,7 +161,12 @@ func main() {
 
 		// Calculate backoff delay based on the selected strategy
 		delay, _ := parseBackoffStrategy(*backoffStrategy, attempt, *baseDelay)
-		fmt.Printf("Retrying in %v...\n", delay)
+		fmt.Printf("Waiting for %v\n", delay)
+		for i := 0; i < int(delay.Seconds()); i++ {
+			fmt.Printf("\r\033[KRetrying in %ds...", i+1)
+			time.Sleep(time.Second)
+		}
+		fmt.Println()
 
 		// Wait for the backoff delay before retrying
 		time.Sleep(delay)
