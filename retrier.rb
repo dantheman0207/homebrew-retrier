@@ -1,7 +1,7 @@
 class Retrier < Formula
     desc "A tool for retrying commands until they succeed"
     homepage "https://github.com/dantheman0207/retrier"
-    url "https://github.com/dantheman0207/homebrew-retrier/releases/download/v0.1.8/retrier-v0.1.8-darwin-arm.tar.gz"
+    url "https://github.com/dantheman0207/homebrew-retrier/releases/download/v0.1.9/retrier-v0.1.9-darwin-arm.tar.gz"
     sha256 ""
     license "MIT"
   
