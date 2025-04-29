@@ -16,7 +16,7 @@ import (
 )
 
 var (
-	Version = "0.1.15"
+	Version = "0.1.16"
 )
 
 // Fibonacci backoff
@@ -186,7 +186,7 @@ func main() {
 				// Handle Ctrl+C: Skip the current iteration
 				fmt.Println("\nCtrl+C detected. Skipping current attempt...")
 				attempt++
-				continue
+				break
 			default:
 				fmt.Printf("\r\033[KRetrying in %v...", time.Duration(i+1)*time.Second)
 				time.Sleep(time.Second)

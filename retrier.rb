@@ -1,8 +1,8 @@
 class Retrier < Formula
     desc "A tool for retrying commands until they succeed"
     homepage "https://github.com/dantheman0207/retrier"
-    url "https://github.com/dantheman0207/homebrew-retrier/releases/download/v0.1.15/retrier-v0.1.15-darwin-arm.tar.gz"
-    sha256 "9bbc8cfb77f92b9016f8a7a837f680613e941a414418fb9dd693388ce5a9fbf0"
+    url "https://github.com/dantheman0207/homebrew-retrier/releases/download/v0.1.16/retrier-v0.1.16-darwin-arm.tar.gz"
+    sha256 "d1e55d865d57d38f9c9bd36504526c23f60dc4c6816e4a6cb297d994278d709f"
     license "MIT"
   
     depends_on "go" => :build
