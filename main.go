@@ -7,14 +7,16 @@ import (
 	"math"
 	"os"
 	"os/exec"
+	"os/signal"
 	"strings"
+	"syscall"
 	"time"
 
 	"github.com/creack/pty"
 )
 
 var (
-	Version = "0.1.14"
+	Version = "0.1.15"
 )
 
 // Fibonacci backoff
@@ -122,6 +124,10 @@ func main() {
 	// Initialize attempt counter
 	attempt := 1
 
+	// Set up signal handling for Ctrl+C
+	sigChan := make(chan os.Signal, 1)
+	signal.Notify(sigChan, syscall.SIGINT)
+
 	for {
 		// Run the command
 		cmd := exec.Command("/bin/sh", "-c", command)
@@ -131,7 +137,7 @@ func main() {
 		// Start the command with a pty
 		ptmx, err := pty.Start(cmd)
 		if err != nil {
-			fmt.Printf("failed to start PTY: %w", err)
+			fmt.Printf("failed to start PTY: %v\n", err)
 		}
 		defer func() { _ = ptmx.Close() }() // Best effort
 
@@ -159,16 +165,37 @@ func main() {
 			os.Exit(1)
 		}
 
+		// Handle Ctrl+D during the delay
+		go func() {
+			buf := make([]byte, 1)
+			for {
+				_, err := os.Stdin.Read(buf)
+				if err == io.EOF {
+					fmt.Println("\nCtrl+D detected. Exiting...")
+					os.Exit(0)
+				}
+			}
+		}()
+
 		// Calculate backoff delay based on the selected strategy
 		delay, _ := parseBackoffStrategy(*backoffStrategy, attempt, *baseDelay)
 		fmt.Printf("Waiting for %v\n", delay)
 		for i := int(delay.Seconds()) - 1; i > 0; i-- {
-			fmt.Printf("\r\033[KRetrying in %v...", time.Duration(i+1)*time.Second)
-			time.Sleep(time.Second)
+			select {
+			case <-sigChan:
+				// Handle Ctrl+C: Skip the current iteration
+				fmt.Println("\nCtrl+C detected. Skipping current attempt...")
+				attempt++
+				continue
+			default:
+				fmt.Printf("\r\033[KRetrying in %v...", time.Duration(i+1)*time.Second)
+				time.Sleep(time.Second)
+			}
 		}
 		fmt.Print("\r\033[K\n")
 
 		// Increment attempt counter
 		attempt++
+
 	}
 }
