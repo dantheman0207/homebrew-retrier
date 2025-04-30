@@ -16,7 +16,7 @@ import (
 )
 
 var (
-	Version = "0.1.16"
+	Version = "0.1.17"
 )
 
 // Fibonacci backoff
@@ -180,13 +180,14 @@ func main() {
 		// Calculate backoff delay based on the selected strategy
 		delay, _ := parseBackoffStrategy(*backoffStrategy, attempt, *baseDelay)
 		fmt.Printf("Waiting for %v\n", delay)
+	delayLoop:
 		for i := int(delay.Seconds()) - 1; i > 0; i-- {
 			select {
 			case <-sigChan:
 				// Handle Ctrl+C: Skip the current iteration
-				fmt.Println("\nCtrl+C detected. Skipping current attempt...")
+				fmt.Println("\nCtrl+C detected. Skipping current delay...")
 				attempt++
-				break
+				break delayLoop
 			default:
 				fmt.Printf("\r\033[KRetrying in %v...", time.Duration(i+1)*time.Second)
 				time.Sleep(time.Second)
