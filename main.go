@@ -117,7 +117,12 @@ func main() {
 	}
 
 	_, strategy := parseBackoffStrategy(*backoffStrategy, 0, *baseDelay)
-	fmt.Printf("Using %s strategy for backoffs with initial delay %ds and %d max attempts\n", strategy, *baseDelay, *maxAttempts)
+	fmt.Printf(
+		"Using %s strategy for backoffs with initial delay %s and %d max attempts\n",
+		strategy,
+		time.Duration(*baseDelay)*time.Second,
+		*maxAttempts,
+	)
 
 	command := strings.Join(flag.Args(), " ")
 
