@@ -16,7 +16,7 @@ import (
 )
 
 var (
-	Version = "0.1.18"
+	Version = "0.1.19"
 )
 
 // Fibonacci backoff
@@ -135,6 +135,7 @@ func main() {
 
 	for {
 		// Run the command
+		fmt.Println(command)
 		cmd := exec.Command("/bin/sh", "-c", command)
 		cmd.Stdout = os.Stdout
 		cmd.Stderr = os.Stderr
