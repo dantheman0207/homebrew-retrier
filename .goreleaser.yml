@@ -1,0 +1,67 @@
+version: 2
+
+project_name: retrier
+
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - id: retrier-darwin
+    main: .
+    binary: retrier
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - darwin
+    goarch:
+      - arm64
+    ldflags:
+      - -s -w
+      - -X main.Version={{ .Version }}
+
+archives:
+  - id: retrier
+    ids:
+      - retrier-darwin
+    formats:
+      - tar.gz
+    name_template: >-
+      {{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}
+
+checksum:
+  name_template: checksums.txt
+
+changelog:
+  sort: asc
+  use: git
+
+brews:
+  - name: retrier
+    repository:
+      owner: dantheman0207
+      name: homebrew-retrier
+      branch: main
+    directory: .
+    homepage: https://github.com/dantheman0207/retrier
+    description: A tool for retrying commands until they succeed
+    skip_upload: auto
+    test: |
+      assert_match version.to_s, shell_output("#{bin}/retrier --version")
+    install: |
+      bin.install "retrier"
+
+  - name: retrier
+    repository:
+      owner: dantheman0207
+      name: homebrew-tools
+      branch: main
+    directory: Formula
+    homepage: https://github.com/dantheman0207/retrier
+    description: A tool for retrying commands until they succeed
+    skip_upload: auto
+    test: |
+      assert_match version.to_s, shell_output("#{bin}/retrier --version")
+    install: |
+      bin.install "retrier"
+

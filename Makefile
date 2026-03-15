@@ -2,7 +2,7 @@ VERSION := 0.1.19
 TAR_FILE := retrier-v$(VERSION)-darwin-arm.tar.gz
 SHA256 := $(shell [ -f $(TAR_FILE) ] && shasum -a 256 $(TAR_FILE) | awk '{print $$1}' || echo "")
 
-.PHONY: all build tar bump-patch update-sha
+.PHONY: all build tar bump-patch update-sha release-snapshot
 
 all: bump-patch
 	$(MAKE) reexec || $(MAKE) revert-version
@@ -53,3 +53,5 @@ update-sha:
 	sed -i '' "s/sha256 \".*\"/sha256 \"$${NEW_SHA256}\"/" retrier.rb && \
 	echo "SHA256 updated to $${NEW_SHA256}"
 
+release-snapshot:
+	goreleaser release --snapshot --clean

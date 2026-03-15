@@ -4,14 +4,20 @@
 
 ## Installation
 
-You can install `retrier` using [Homebrew](https://brew.sh/). Follow these instructions to install it via a Homebrew tap:
+You can install `retrier` using [Homebrew](https://brew.sh/) from either the dedicated tap or the shared tools tap.
 
 ### Install via Homebrew
 
-To install `retrier`, first add the Homebrew tap for the repository.
+To install `retrier`, first add one of the Homebrew taps.
 
 ```bash
 brew tap dantheman0207/retrier
+```
+
+or:
+
+```bash
+brew tap dantheman0207/tools
 ```
 
 Once the tap is added, you can install the tool.
@@ -24,6 +30,13 @@ After installation, you can check if `retrier` is available.
 
 ```bash
 retrier --help
+```
+
+To remove a tap later:
+
+```bash
+brew untap dantheman0207/retrier
+brew untap dantheman0207/tools
 ```
 
 ### Install via git
@@ -135,3 +148,12 @@ You can limit the number of retry attempts using `-m` or `-max-attempts`. By def
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Release Notes
+
+Tagged releases publish `retrier` to both:
+
+- `dantheman0207/homebrew-retrier`
+- `dantheman0207/homebrew-tools`
+
+The release workflow uses GoReleaser and requires the `HOMEBREW_TAP_GITHUB_TOKEN` secret in the GitHub repo.
