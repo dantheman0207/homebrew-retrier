@@ -157,3 +157,5 @@ Tagged releases publish `retrier` to both:
 - `dantheman0207/homebrew-tools`
 
 The release workflow uses GoReleaser and requires the `HOMEBREW_TAP_GITHUB_TOKEN` secret in the GitHub repo.
+
+The reusable release checklist is in [docs/HOMEBREW_RELEASES.md](/Users/daniel/Projects/retrier/docs/HOMEBREW_RELEASES.md).
